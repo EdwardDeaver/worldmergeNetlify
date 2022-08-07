@@ -1,19 +1,26 @@
-<nav class="overflow-x-scroll overflow-x-visible-ns flex justify-between items-center center bg-white divider-grey relative">
-
-	<!-- Logo -->
-	<a href="/" class="pa3 db mr4 h-100 w3 flex-none">
-		<img src="/img/logo.svg" alt="Kaldi logo" class="br0 db mb0 w-100"/>
-	</a>
-
-	<!-- Primary Nav -->
-	<ul class="flex b grey-3">
-		<li><a href="/products" class="pa3 no-underline db">Products</a></li>
-
-		<li><a href="/values" class="pa3 no-underline db">Values</a></li>
-
-		<li><a href="/post" class="pa3 no-underline db">Blog</a></li>
-
-		<li><a href="/contact" class="pa3 no-underline db">Contact</a></li>
-	</ul>
-
+<nav id="patterns-nav" class="patterns" role="navigation">
+  <h2 class="vh">{{ T "nav_main_navigation" }}</h2>
+  <button id="menu-button" aria-expanded="false">
+    <svg viewBox="0 0 50 50" aria-hidden="true" focusable="false">
+      <use href="#menu"></use>
+    </svg>
+    {{ T "nav_button_menu" }}
+  </button>
+  {{ $current := . }}
+  <ul id="patterns-list">
+  {{ range .Site.Menus.nav }}
+    <li class="pattern">
+      {{ $active := or ($current.IsMenuCurrent "nav" .) ($current.HasMenuCurrent "nav" .) }}
+      {{ $active = or $active (eq .Name $current.Title) }}
+      {{ $active = or $active (and (eq .Name "Blog") (eq $current.Section "post")) }}
+      {{ $active = or $active (and (eq .Name "Tags") (eq $current.Section "tags")) }}
+      <a href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+        <svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50">
+          <use href="#bookmark"></use>
+        </svg>
+        <span class="text">{{ .Name }}</span>
+      </a>
+    </li>
+  {{ end }}
+  </ul>
 </nav>
